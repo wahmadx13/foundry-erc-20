@@ -39,4 +39,22 @@ contract AnotherTokenTest is Test {
         vm.expectRevert();
         MintableToken(address(anotherToken)).mint(address(this), 1);
     }
+
+    function testAllowances() public {
+        uint256 initialAllowance = 1000;
+
+        // Bob approves Alice to spend tokens on his behalf
+
+        vm.prank(bob);
+        anotherToken.approve(alice, initialAllowance);
+        uint256 transferAmount = 500;
+
+        vm.prank(alice);
+        anotherToken.transferFrom(bob, alice, transferAmount);
+        assertEq(anotherToken.balanceOf(alice), transferAmount);
+        assertEq(
+            anotherToken.balanceOf(bob),
+            STARTING_BALANCE - transferAmount
+        );
+    }
 }
