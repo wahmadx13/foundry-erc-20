@@ -6,6 +6,10 @@ import {Test} from "forge-std/Test.sol";
 import {DeployAnotherToken} from "script/DeployAnotherToken.s.sol";
 import {AnotherToken} from "src/AnotherToken.sol";
 
+interface MintableToken {
+    function mint(address, uint256) external;
+}
+
 contract AnotherTokenTest is Test {
     AnotherToken public anotherToken;
     DeployAnotherToken public deployer;
@@ -29,5 +33,10 @@ contract AnotherTokenTest is Test {
 
     function testBobBalance() public {
         assertEq(STARTING_BALANCE, anotherToken.balanceOf(bob));
+    }
+
+    function testUsersCantMint() public {
+        vm.expectRevert();
+        MintableToken(address(anotherToken)).mint(address(this), 1);
     }
 }
