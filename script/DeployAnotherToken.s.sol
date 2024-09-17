@@ -7,9 +7,10 @@ import {AnotherToken} from "src/AnotherToken.sol";
 
 contract DeployAnotherToken is Script {
     uint256 public constant INITIAL_SUPPLY = 1000 ether;
-    function run() external {
+    function run() external returns (AnotherToken) {
         vm.startBroadcast();
-        new AnotherToken(INITIAL_SUPPLY);
+        AnotherToken anotherToken = new AnotherToken(INITIAL_SUPPLY);
         vm.stopBroadcast();
+        return anotherToken;
     }
 }
