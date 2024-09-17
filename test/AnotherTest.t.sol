@@ -23,6 +23,10 @@ contract AnotherTokenTest is Test {
         anotherToken.transfer(bob, STARTING_BALANCE);
     }
 
+    function testInitialSupply() public {
+        assertEq(anotherToken.totalSupply(), deployer.INITIAL_SUPPLY());
+    }
+
     function testBobBalance() public {
         assertEq(STARTING_BALANCE, anotherToken.balanceOf(bob));
     }
